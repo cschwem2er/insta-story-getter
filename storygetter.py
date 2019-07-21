@@ -32,6 +32,7 @@ else:
 
 path = Path().absolute()
 webdriverpath = str(path) + relpath
+print(webdriverpath)
 
 try:
 	driver = webdriver.Chrome(executable_path= webdriverpath)
@@ -73,10 +74,13 @@ try:
 				else:
 					links.append(url)
 					print("Got src (IMAGE)")
+					print(url)
 			except:
 				try:
-					vids.append(driver.find_element_by_tag_name('source').get_attribute("src"))
+					url = driver.find_element_by_tag_name('source').get_attribute("src")
+					vids.append(url)
 					print("Got src (VIDEO)")
+					print(url)
 				except:
 					url = "None"
 
