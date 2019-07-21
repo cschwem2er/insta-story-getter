@@ -28,7 +28,7 @@ insturl = 'https://instagram.com/stories/' + name + '/'
 if platform.system() == "Windows":
 	relpath = '\drivers\chromedriver.exe'
 else:
-	relpath = '\drivers\chromedriver'
+	relpath = '/drivers/chromedriver'
 
 path = Path().absolute()
 webdriverpath = str(path) + relpath
