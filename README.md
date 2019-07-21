@@ -11,9 +11,11 @@ Google Chrome has to be installed.
 Usage:
 
 Windows:
+
 storygetter.py -a ACCOUNT -u YOURACCOUNT -p YOURPASSWORD
 
 Linux:
+
 cd insta-story-getter
 
 cd drivers 
