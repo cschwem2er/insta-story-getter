@@ -14,8 +14,8 @@ Windows:
 storygetter.py -a ACCOUNT -u YOURACCOUNT -p YOURPASSWORD
 
 Linux:
-cd insta-story-getter
-cd drivers
-chmod +x chromedriver
-cd /insta-story-getter
-python3 storygetter.py -a ACCOUNT -u YOURACCOUNT -p YOURPASSWORD
+cd insta-story-getter \n
+cd drivers \n
+chmod +x chromedriver \n
+cd /insta-story-getter \n
+python3 storygetter.py -a ACCOUNT -u YOURACCOUNT -p YOURPASSWORD \n
