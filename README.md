@@ -1,4 +1,4 @@
-# insta-story-getter
+<h1 align="center">insta-story-getter</h1>
 A python script, which downloads images and videos from instagram-stories
 
 
