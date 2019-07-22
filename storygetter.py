@@ -58,11 +58,18 @@ try:
 	try:
 		assert 'Stories' in driver.title
 	except:
-		driver.close()
-		print('This instagram acoount does not have a story!')
-		print('Press enter to exit')
-		input()
-		sys.exit()
+		if name in driver.title:
+			driver.close()
+			print('This instagram account does not have a story!')
+			print('Press enter to exit')
+			input()
+			sys.exit()
+		else:
+			driver.close()
+			print('This instagram acoount does not exist!')
+			print('Press enter to exit')
+			input()
+			sys.exit()
 
 	try:
 		user = driver.find_element_by_name("username")
