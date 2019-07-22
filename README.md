@@ -1,4 +1,7 @@
-<h1 align="center">insta-story-getter</h1>
+<div align="center">
+<h1>insta-story-getter</h1>
+[![HitCount](http://hits.dwyl.io/therealhe1ko/insta-story-getter.svg)](http://hits.dwyl.io/therealhe1ko/insta-story-getter)
+</div>
 A python script, which downloads images and videos from instagram-stories
 
 
