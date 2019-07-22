@@ -10,13 +10,13 @@ parser = optparse.OptionParser()
 
 parser.add_option('-a', '--account',
     action="store", dest="account",
-    help="The account", default="nasa")
+    help="The instagram account, from which the story will be downloaded", default="nasa")
 parser.add_option('-u', '--username',
     action="store", dest="username",
-    help="The account", default=None)
+    help="Your instagram-username or email", default=None)
 parser.add_option('-p', '--password',
     action="store", dest="password",
-    help="The account", default=None)
+    help="Your instagram-password", default=None)
 
 options, args = parser.parse_args()
 
