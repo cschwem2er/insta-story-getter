@@ -32,6 +32,6 @@ python3 storygetter.py -a ACCOUNT -u YOURACCOUNT -p YOURPASSWORD
 ## Common Errors:
 
 ##### The program starts, but nothing happens
-That means, theres something wrong with the chrome installation or the chrome driver. You can try downloading a new driver from: (https://sites.google.com/a/chromium.org/chromedriver/downloads "This site"). (Could work if you've got an older / or newer chrome version), the standart-driver is on version 75. If you downloaded it, rename it to 'chromedriver.exe' and put it in the insta-story-getter/drivers folder.
+That means, theres something wrong with the chrome installation or the chrome driver. You can try downloading a new driver from: [This Site](https://sites.google.com/a/chromium.org/chromedriver/downloads "Download Chrome driver"). (Could work if you've got an older / or newer chrome version), the standart-driver is on version 75. If you downloaded it, rename it to 'chromedriver.exe' and put it in the insta-story-getter/drivers folder.
 
 If you don't see your error here, open a issue.
