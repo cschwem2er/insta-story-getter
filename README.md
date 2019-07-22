@@ -2,19 +2,22 @@
 A python script, which downloads images and videos from instagram-stories
 
 
-Requirements:
+###### Requirements:
 Python3
 Python3-Selenium
 
 Google Chrome has to be installed.
 
-Usage:
 
-Windows:
+###### Usage:
+
+###### Windows:
+
 
 storygetter.py -a ACCOUNT -u YOURACCOUNT -p YOURPASSWORD
 
-Linux:
+###### Linux:
+
 
 cd insta-story-getter
 
