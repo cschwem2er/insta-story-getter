@@ -10,34 +10,56 @@ parser = optparse.OptionParser()
 
 parser.add_option('-a', '--account',
     action="store", dest="account",
-    help="The account", default="spam")
+    help="The account", default="nasa")
 parser.add_option('-u', '--username',
     action="store", dest="username",
-    help="The account", default="spam")
+    help="The account", default=None)
 parser.add_option('-p', '--password',
     action="store", dest="password",
-    help="The account", default="spam")
+    help="The account", default=None)
 
 options, args = parser.parse_args()
 
+if options.username:
+	username = options.username
+else:
+	print('You have\'nt defined a username!')
+	print('Press enter to exit')
+	input()
+	sys.exit()
+
+if options.password:
+	password = options.password
+else:
+	print('You have\'nt defined a password!')
+	print('Press enter to exit')
+	input()
+	sys.exit()
+
+
 name = options.account
-username = options.username
-password = options.password
 insturl = 'https://instagram.com/stories/' + name + '/'
 
 if platform.system() == "Windows":
 	relpath = '\drivers\chromedriver.exe'
 else:
-	relpath = '/drivers/chromedriver'
+	relpath = '\drivers\chromedriver'
 
 path = Path().absolute()
 webdriverpath = str(path) + relpath
-print(webdriverpath)
 
 try:
 	driver = webdriver.Chrome(executable_path= webdriverpath)
 	driver.get(insturl)
-	assert 'Stories' in driver.title
+	try:
+		assert 'Stories' in driver.title
+	except:
+		driver.close()
+		print('This instagram acoount does not have a story!')
+		print('Press enter to exit')
+		input()
+		sys.exit()
+
 	try:
 		user = driver.find_element_by_name("username")
 		passwd = driver.find_element_by_name("password")
@@ -51,13 +73,13 @@ try:
 		button.click()
 	except:
 		pass
-	time.sleep(5)
+	time.sleep(7)
 	next = driver.find_element_by_css_selector('.h_zdq')
 	next.click()
 	time.sleep(1)
 	links = ['None', None]
 	vids = []
-	for i in range(0, 200):
+	while True:
 		try:
 			try:
 				#try downloading the image
@@ -74,13 +96,10 @@ try:
 				else:
 					links.append(url)
 					print("Got src (IMAGE)")
-					print(url)
 			except:
 				try:
-					url = driver.find_element_by_tag_name('source').get_attribute("src")
-					vids.append(url)
+					vids.append(driver.find_element_by_tag_name('source').get_attribute("src"))
 					print("Got src (VIDEO)")
-					print(url)
 				except:
 					url = "None"
 
