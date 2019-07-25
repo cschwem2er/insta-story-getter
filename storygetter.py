@@ -21,7 +21,7 @@ parser.add_option('-u', '--username',
     help="Your instagram-username or email", default=None)
 parser.add_option('-p', '--password',
     action="store", dest="password",
-    help="Your instagram-password", default="2NDexGK°>$3")
+    help="Your instagram-password", default=None)
 
 options, args = parser.parse_args()
 
