@@ -11,12 +11,21 @@ Python3-Selenium
 Google Chrome has to be installed.
 
 
-###### Usage:
+##### Usage:
+
+###### General Usage:
+
+storygetter.py -a ACCOUNT -u YOURACCOUNT -p YOURPASSWORD
+
+When the instagram user is private:
+
+storygetter.py -a ACCOUNT --private -u YOURACCOUNT -p YOURPASSWORD
+
 
 ###### Windows:
 
 
-storygetter.py -a ACCOUNT -u YOURACCOUNT -p YOURPASSWORD
+storygetter.py ARGUMENTS (see above)
 
 ###### Linux:
 
@@ -29,7 +38,7 @@ chmod +x chromedriver
 
 cd /insta-story-getter 
 
-python3 storygetter.py -a ACCOUNT -u YOURACCOUNT -p YOURPASSWORD 
+python3 storygetter.py ARGUMENTS (see above)
 
 ## Common Errors:
 
