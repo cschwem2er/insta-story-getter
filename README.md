@@ -36,7 +36,7 @@ cd drivers
 
 chmod +x chromedriver 
 
-cd /insta-story-getter 
+cd .. 
 
 python3 storygetter.py ARGUMENTS (see above)
 
