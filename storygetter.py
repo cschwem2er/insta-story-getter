@@ -6,22 +6,16 @@ import optparse
 import platform
 from pathlib import Path
 import logging
+import os
 from selenium.webdriver.remote.remote_connection import LOGGER
 LOGGER.setLevel(logging.WARNING)
 
 
 parser = optparse.OptionParser()
-parser.add_option('-a', '--account',
-    action="store", dest="account",
-    help="The instagram account, from which the contents will be downloaded", default="nasa")#
-parser.add_option('--private', action="store_true",
-	default=False, help="Add this option, if the user is private")
-parser.add_option('-u', '--username',
-    action="store", dest="username",
-    help="Your instagram-username or email", default=None)
-parser.add_option('-p', '--password',
-    action="store", dest="password",
-    help="Your instagram-password", default=None)
+parser.add_option('-a', '--account', action="store", dest="account", help="The instagram account, from which the contents will be downloaded", default="nasa")#
+parser.add_option('--private', action="store_true", default=False, help="Add this option, if the user is private")
+parser.add_option('-u', '--username', action="store", dest="username", help="Your instagram-username or email", default=None)
+parser.add_option('-p', '--password', action="store", dest="password", help="Your instagram-password", default=None)
 
 options, args = parser.parse_args()
 
@@ -46,13 +40,10 @@ else:
 name = options.account
 insturl = 'https://instagram.com/stories/' + name + '/'
 
-if platform.system() == "Windows":
-	relpath = '\drivers\chromedriver.exe'
-else:
-	relpath = '/drivers/chromedriver'
+relpath = 'drivers/chromedriver'
 
 path = Path().absolute()
-webdriverpath = str(path) + relpath
+webdriverpath = os.path.join(path, relpath)
 
 def openacc():
 	try:
@@ -138,7 +129,11 @@ def openacc():
 
 def privateacc():
 	try:
-		driver = webdriver.Chrome(executable_path= webdriverpath)
+		try:
+			driver = webdriver.Chrome(executable_path= webdriverpath)
+		except FileNotFoundError:
+			print('Cant find the chromedriver!')
+			exit()
 		driver.get("https://www.instagram.com/accounts/login/")
 		try:
 			assert 'Instagram' in driver.title
