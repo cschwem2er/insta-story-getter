@@ -13,16 +13,16 @@ Google Chrome has to be installed.
 ##### Usage:
 
 ###### General Usage:
-
+```
 storygetter.py -a ACCOUNT -u YOURACCOUNT -p YOURPASSWORD
-
+```
 When the instagram user is private:
-
+```
 storygetter.py -a ACCOUNT --private -u YOURACCOUNT -p YOURPASSWORD
-
+```
 
 ##### Installation
-
+```
 git clone https://github.com/therealhe1ko/insta-story-getter
 
 cd insta-story-getter
@@ -34,7 +34,7 @@ chmod +x chromedriver
 cd .. 
 
 python3 storygetter.py ARGUMENTS (see above)
-
+```
 ## Common Errors:
 
 ##### The program starts, but nothing happens
