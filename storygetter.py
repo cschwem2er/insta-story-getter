@@ -8,34 +8,16 @@ from pathlib import Path
 import logging
 import os
 from selenium.webdriver.remote.remote_connection import LOGGER
+from getpass import getpass
 LOGGER.setLevel(logging.WARNING)
 
 
 parser = optparse.OptionParser()
 parser.add_option('-a', '--account', action="store", dest="account", help="The instagram account, from which the contents will be downloaded", default="nasa")#
 parser.add_option('--private', action="store_true", default=False, help="Add this option, if the user is private")
-parser.add_option('-u', '--username', action="store", dest="username", help="Your instagram-username or email", default=None)
-parser.add_option('-p', '--password', action="store", dest="password", help="Your instagram-password", default=None)
+
 
 options, args = parser.parse_args()
-
-
-if options.username:
-	username = options.username
-else:
-	print('You havent defined a username!')
-	print('Press enter to exit')
-	input()
-	sys.exit()
-
-if options.password:
-	password = options.password
-else:
-	print('You havent defined a password!')
-	print('Press enter to exit')
-	input()
-	sys.exit()
-
 
 name = options.account
 insturl = 'https://instagram.com/stories/' + name + '/'
@@ -44,6 +26,34 @@ relpath = 'drivers/chromedriver'
 
 path = Path().absolute()
 webdriverpath = os.path.join(path, relpath)
+
+def getcred():
+	name = input('Your instagram username or email: ')
+	password = getpass('Your instagram password: ')
+
+
+def checkexist():
+	global driver
+	try:
+		driver = webdriver.Chrome(executable_path= webdriverpath)
+		driver.get('https://instagram.com/{}'.format(name))
+		try:
+			assert name in driver.title
+		except:
+			return False
+		else:
+			return True
+	except:
+		print('Can\'t open driver!')
+
+def checkstatus():
+	driver.get('https://instagram.com/stories/{}'.format(name))
+	try:
+		assert 'Stories' in driver.title
+	except:
+		return False
+	else:
+		return True
 
 def openacc():
 	try:
@@ -218,12 +228,17 @@ def privateacc():
 		input()
 		sys.exit()
 
+print('Please enter your instagram credentials:')
+getcred()
 
-if options.private:
-	privateacc()
-else:
-	openacc()
+print('Checking if user exists...')
+if not checkexist():
+	print('This user does not exist!')
+	exit()
 
+print('Checking if user is public or private')
+if not checkstatus():
+	print('User is private')
 
 for i in range(0, len(links)):
 	if links[i] != None and links[i] != 'None':
