@@ -4,11 +4,11 @@ from selenium import webdriver
 import time
 import requests
 import sys
-import optparse
 import platform
 from pathlib import Path
 import logging
 import os
+import os.path
 from selenium.webdriver.remote.remote_connection import LOGGER
 from selenium.common.exceptions import SessionNotCreatedException
 from getpass import getpass
@@ -16,17 +16,16 @@ import subprocess
 import shutil
 LOGGER.setLevel(logging.WARNING)
 
-subprocess.call('clear')
+if not os.path.isfile('drivers/chromedriver'):
+	print('Can\'t find the chromedriver! Have you installed it? View the README.md for more information')
+	exit()
 
-parser = optparse.OptionParser()
-parser.add_option('--private', action="store_true", default=False, help="Add this option, if the user is private")
+subprocess.call('clear')
 
 global imgs
 imgs = list()
 global vids
 vids = list()
-
-options, args = parser.parse_args()
 
 relpath = 'drivers/chromedriver'
 
