@@ -1,6 +1,8 @@
+#!/usr/bin/python3
+
 from selenium import webdriver
 import time
-import urllib.request
+import requests
 import sys
 import optparse
 import platform
@@ -8,242 +10,177 @@ from pathlib import Path
 import logging
 import os
 from selenium.webdriver.remote.remote_connection import LOGGER
+from selenium.common.exceptions import SessionNotCreatedException
+from getpass import getpass
+import subprocess
+import shutil
 LOGGER.setLevel(logging.WARNING)
 
+subprocess.call('clear')
 
 parser = optparse.OptionParser()
-parser.add_option('-a', '--account', action="store", dest="account", help="The instagram account, from which the contents will be downloaded", default="nasa")#
 parser.add_option('--private', action="store_true", default=False, help="Add this option, if the user is private")
-parser.add_option('-u', '--username', action="store", dest="username", help="Your instagram-username or email", default=None)
-parser.add_option('-p', '--password', action="store", dest="password", help="Your instagram-password", default=None)
+
+global imgs
+imgs = list()
+global vids
+vids = list()
 
 options, args = parser.parse_args()
-
-
-if options.username:
-	username = options.username
-else:
-	print('You havent defined a username!')
-	print('Press enter to exit')
-	input()
-	sys.exit()
-
-if options.password:
-	password = options.password
-else:
-	print('You havent defined a password!')
-	print('Press enter to exit')
-	input()
-	sys.exit()
-
-
-name = options.account
-insturl = 'https://instagram.com/stories/' + name + '/'
 
 relpath = 'drivers/chromedriver'
 
 path = Path().absolute()
 webdriverpath = os.path.join(path, relpath)
 
-def openacc():
+def getcred():
+	global name
+	name = input('User: ')
+	insturl = 'https://instagram.com/stories/' + name + '/'
+	print('\nYour instagram username of email')
+	global username
+	username = input('Username/Email: ')
+	print('\nYour instagram password')
+	global password
+	password = getpass('Password: ')
+
+
+def checkexist():
+	global driver
 	try:
 		driver = webdriver.Chrome(executable_path= webdriverpath)
-		driver.get(insturl)
-		try:
-			assert 'Stories' in driver.title
-		except:
-			if name in driver.title:
-				driver.close()
-				print('This instagram account does not have a story!')
-				print('Press enter to exit')
-				input()
-				sys.exit()
-			else:
-				driver.close()
-				print('This instagram acoount does not exist!')
-				print('Press enter to exit')
-				input()
-				sys.exit()
-
-		try:
-			user = driver.find_element_by_name("username")
-			passwd = driver.find_element_by_name("password")
-		except:
-			time.sleep(1)
-		user.send_keys(username)
-		time.sleep(1)
-		passwd.send_keys(password)
-		try:
-			button = driver.find_element_by_css_selector('.L3NKy')
-			button.click()
-		except:
-			pass
-		time.sleep(7)
-		next = driver.find_element_by_css_selector('.h_zdq')
-		next.click()
-		time.sleep(1)
-		global links
-		links = ['None', None]
-		global vids
-		vids = []
-		while True:
-			try:
-				try:
-					#try downloading the image
-					#if it fails its a video
-					try:
-						elem = driver.find_element_by_class_name("y-yJ5")
-						url = elem.get_attribute("src")
-					except:
-						raise Exception
-					if url in (None, 'None'):
-						raise Exception
-					elif url in links:
-						nextbuttom = driver.find_element_by_class_name("ow3u_").click()
-					else:
-						links.append(url)
-						print("Got src (IMAGE)")
-				except:
-					try:
-						vids.append(driver.find_element_by_tag_name('source').get_attribute("src"))
-						print("Got src (VIDEO)")
-					except:
-						url = "None"
-
-					if url in links:
-						pass
-						nextbuttom = driver.find_element_by_class_name("ow3u_").click()
-					else:
-						links.append(url)
-			except:
-				#if it cant find anything, the story is over, and the browser exits
-				break
-
-			time.sleep(.5)
-		driver.close()
-		print('Downloading images...')
-	except:
-		input()
-		sys.exit()
-
-
-def privateacc():
+		driver.get('https://instagram.com/{}'.format(name))
+	except SessionNotCreatedException as e:
+		print('Your Version of Chromedriver is outdated. Please download the one matching your Chrome installation:')
+		print(e)
+		exit()
 	try:
-		try:
-			driver = webdriver.Chrome(executable_path= webdriverpath)
-		except FileNotFoundError:
-			print('Cant find the chromedriver!')
-			exit()
-		driver.get("https://www.instagram.com/accounts/login/")
-		try:
-			assert 'Instagram' in driver.title
-		except:
-			driver.close()
-			print('This instagram acoount does not exist!')
-			print('Press enter to exit')
-			input()
-			sys.exit()
-
-		try:
-			time.sleep(1.5)
-			user = driver.find_element_by_name("username")
-			passwd = driver.find_element_by_name("password")
-		except:
-			time.sleep(1)
-			print('Exception')
-		user.send_keys(username)
-		time.sleep(1)
-		passwd.send_keys(password)
-		try:
-			button = driver.find_element_by_css_selector('.L3NKy')
-			button.click()
-		except:
-			pass
-		time.sleep(3)
-		notnow = driver.find_element_by_css_selector('.HoLwm').click()
-		time.sleep(2)
-		driver.get(insturl)
-		time.sleep(3)
-		try:
-			assert "Stories" in driver.title
-		except:
-			driver.close()
-			print('This account hasnt got a story!')
-			print('Press enter to exit')
-			input()
-			sys.exit()
-		button = driver.find_element_by_css_selector('.uL8Hv')
-		button.click()
-		global links
-		links = ['None', None]
-		global vids
-		vids = []
-		while True:
-			try:
-				try:
-					#try downloading the image
-					#if it fails its a video
-					try:
-						elem = driver.find_element_by_class_name("y-yJ5")
-						url = elem.get_attribute("src")
-					except:
-						raise Exception
-					if url in (None, 'None'):
-						raise Exception
-					elif url in links:
-						nextbuttom = driver.find_element_by_class_name("ow3u_").click()
-					else:
-						links.append(url)
-						print("Got src (IMAGE)")
-				except:
-					try:
-						vids.append(driver.find_element_by_tag_name('source').get_attribute("src"))
-						print("Got src (VIDEO)")
-					except:
-						url = "None"
-
-					if url in links:
-						pass
-						nextbuttom = driver.find_element_by_class_name("ow3u_").click()
-					else:
-						links.append(url)
-			except:
-				#if it cant find anything, the story is over, and the browser exits
-				break
-
-			time.sleep(.5)
-		driver.close()
-		print('Downloading images...')
+		assert name in driver.title
 	except:
-		input()
-		sys.exit()
-
-
-if options.private:
-	privateacc()
-else:
-	openacc()
-
-
-for i in range(0, len(links)):
-	if links[i] != None and links[i] != 'None':
-		nameimg = name + "\'s story " + str(i) + '.jpg'
-		print('Downloading: ' + nameimg)
-		currlink = links[i]
-		urllib.request.urlretrieve(currlink, nameimg)
-		print("Sucess!")
+		return False
 	else:
-		pass
+		return True
 
-print('Downloading videos')
-for i in range(0, len(vids)):
-	nameimg = name + "\'s story " + str(i) + '.mp4'
-	print('Downloading: ' + nameimg)
-	currlink = vids[i]
-	urllib.request.urlretrieve(currlink, nameimg)
-	print("Sucess")
+def checkstatus():
+	try:
+		priv = driver.find_element_by_class_name("rkEop")
+	except:
+		return True
+	else:
+		return False
 
-print('Everything has been downloaded!')
-print('Press enter to exit')
-input()
-sys.exit()
+def checkstory():
+	print('[INFO] Checking if User has a story')
+	driver.get('https://instagram.com/stories/{}'.format(name))
+	cururl = driver.current_url
+	if cururl[:34] != 'https://www.instagram.com/stories/':
+		return False
+	else:
+		return True
+
+def dl():
+	print('\n[INFO] Story ended!')
+	driver.close()
+	print('[INFO] Downloading images...')
+	if not os.path.exists('img'):
+		os.makedirs('img')
+	if not os.path.exists('vid'):
+		os.makedirs('vid')
+	i = 1
+	for item in imgs:
+		r = requests.get(item, stream=True)
+		fn = "img/{}{}.jpg".format(name, i)
+		print('[INFO] Downloading: {}'.format(fn))
+		with open(fn, 'wb') as f:
+			shutil.copyfileobj(r.raw, f)
+		del r
+		i += 1
+	print('\n[INFO] Downloading videos...')
+	i = 1
+	for item in vids:
+		r = requests.get(item, stream=True)
+		fn = "vid/{}{}.mp4".format(name, i)
+		print('[INFO] Downloading: {}'.format(fn))
+		with open(fn, 'wb') as f:
+			shutil.copyfileobj(r.raw, f)
+		del r
+		i += 1
+	print('\n[INFO] All Images & Videos are downloaded!')
+
+def captstory():
+	try:
+		driver.find_element_by_class_name("sqdOP.yWX7d._4pI4F._8A5w5").click()
+	except:
+		print('[WARN] Waiting another 5 sec for login...')
+		time.sleep(5)
+		driver.find_element_by_class_name("sqdOP.yWX7d._4pI4F._8A5w5").click()
+	time.sleep(1)
+	print('[INFO] Getting src of story...')
+	while True:
+		if driver.current_url == 'https://www.instagram.com/':
+			break
+		try:
+			obj = driver.find_element_by_class_name("OFkrO")
+		except:
+			obj = driver.find_element_by_class_name("y-yJ5")
+			if obj.get_attribute("src") not in imgs and not None:
+				print('[INFO] Got IMG-Src!')
+				imgs.append(obj.get_attribute("src"))
+			else:
+				driver.find_element_by_class_name("ow3u_").click()
+				time.sleep(0.3)
+		else:
+			obj = driver.find_elements_by_tag_name("source")
+			if obj[0].get_attribute("src") not in vids:
+				print('[INFO] Got VID-Src!')
+				vids.append(obj[0].get_attribute("src"))
+			else:
+				driver.find_element_by_class_name("ow3u_").click()
+				time.sleep(0.3)
+	dl()
+
+def login():
+	print('[INFO] Logging you in...')
+	time.sleep(0.5)
+	uname = driver.find_element_by_name('username')
+	uname.send_keys(username)
+	psw = driver.find_element_by_name('password')
+	psw.send_keys(password)
+	time.sleep(1)
+	btn = driver.find_element_by_class_name("sqdOP.L3NKy.y3zKF").click()
+	print('[INFO] Logged in!')
+	print('[INFO] Waiting 5 seconds for login...')
+	time.sleep(5)
+
+print('Insta-Story-Getter by therealhe1ko\n')
+print('Please enter the profile:')
+getcred()
+subprocess.call('clear')
+
+print('[INFO] Checking if user exists...')
+if not checkexist():
+	print('[WARN] This user does not exist!')
+	exit()
+else:
+	print('[INFO] User exists')
+
+print('[INFO] Checking if user is public or private')
+if not checkstatus():
+	print('[INFO] User is private')
+	driver.get('https://instagram.com/accounts/login/')
+	login()
+	driver.get('https://instagram.com/stories/{}/'.format(name))
+	captstory()
+else:
+	print('[INFO] User is public')
+	if not checkstory():
+		print('[WARN] This user has no story!')
+		driver.close()
+		exit()
+	else:
+		print('[INFO] This user has a story')
+		login()
+		captstory()
+
+
+exit()
