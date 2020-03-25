@@ -80,6 +80,7 @@ def checkstory():
 
 def dl():
 	print('\n[INFO] Story ended!')
+	driver.close()
 	print('[INFO] Downloading images...')
 	if not os.path.exists('img'):
 		os.makedirs('img')
@@ -104,6 +105,7 @@ def dl():
 			shutil.copyfileobj(r.raw, f)
 		del r
 		i += 1
+	print('\n[INFO] All Images & Videos are downloaded!')
 
 def captstory():
 	try:
@@ -181,5 +183,4 @@ else:
 		captstory()
 
 
-input()
-sys.exit()
+exit()
