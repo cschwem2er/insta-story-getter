@@ -16,8 +16,15 @@ import subprocess
 import shutil
 LOGGER.setLevel(logging.WARNING)
 
+# Red colored text
+def prRed(skk): print("\033[91m{}\033[00m" .format(skk))
+
+
+# Green colored text
+def prGreen(skk): print("\033[92m{}\033[00m" .format(skk))
+
 if not os.path.isfile('drivers/chromedriver'):
-	print('Can\'t find the chromedriver! Have you installed it? View the README.md for more information')
+	pRed('Can\'t find the chromedriver! Have you installed it? View the README.md for more information')
 	exit()
 
 subprocess.call('clear')
@@ -50,7 +57,7 @@ def checkexist():
 		driver = webdriver.Chrome(executable_path= webdriverpath)
 		driver.get('https://instagram.com/{}'.format(name))
 	except SessionNotCreatedException as e:
-		print('Your Version of Chromedriver is outdated. Please download the one matching your Chrome installation:')
+		prRed('Your Version of Chromedriver is outdated. Please download the one matching your Chrome installation:')
 		print(e)
 		exit()
 	try:
@@ -104,7 +111,7 @@ def dl():
 			shutil.copyfileobj(r.raw, f)
 		del r
 		i += 1
-	print('\n[INFO] All Images & Videos are downloaded!')
+	prGreen('\n[INFO] All Images & Videos are downloaded!')
 
 def captstory():
 	time.sleep(1)
@@ -143,10 +150,10 @@ def waitforlogin():
 				pass
 			else:
 				driver.close()
-				print('You have entered a wrong password or username!')
+				prRed('[ERROR] You have entered a wrong password or username!')
 				exit()
 		else:
-			break
+			return
 		time.sleep(0.5)
 
 def login():
@@ -158,14 +165,29 @@ def login():
 	psw.send_keys(password)
 	time.sleep(1)
 	btn = driver.find_element_by_class_name("sqdOP.L3NKy.y3zKF").click()
-	print('[INFO] Logged in!')
 
 def waitforpage(url):
 	while True:
 		if driver.current_url == url:
+			prGreen('[INFO] Logged in!')
 			return
 		else:
 			time.sleep(0.5)
+
+def checklogin():
+	while True:
+		if driver.current_url == 'https://www.instagram.com/':
+			prGreen('[INFO] Logged in!')
+			return
+		try:
+			driver.find_element_by_id("slfErrorAlert")
+		except:
+			pass
+		else:
+			driver.close()
+			prRed('[ERROR] You have entered a wrong username or password!')
+			exit()
+
 
 print('Insta-Story-Getter by therealhe1ko\n')
 print('Please enter the profile:')
@@ -174,7 +196,7 @@ subprocess.call('clear')
 
 print('[INFO] Checking if user exists...')
 if not checkexist():
-	print('[WARN] This user does not exist!')
+	prRed('[ERROR] This user does not exist!')
 	exit()
 else:
 	print('[INFO] User exists')
@@ -184,6 +206,7 @@ if not checkstatus():
 	print('[INFO] User is private')
 	driver.get('https://instagram.com/accounts/login/')
 	login()
+	checklogin()
 	waitforpage('https://www.instagram.com/')
 	driver.get('https://instagram.com/stories/{}/'.format(name))
 	waitforlogin()
@@ -191,11 +214,11 @@ if not checkstatus():
 else:
 	print('[INFO] User is public')
 	if not checkstory():
-		print('[WARN] This user has no story!')
+		prRed('[ERROR] This user has no story!')
 		driver.close()
 		exit()
 	else:
-		print('[INFO] This user has a story')
+		prGreen('[INFO] This user has a story')
 		login()
 		waitforlogin()
 		captstory()
