@@ -107,24 +107,6 @@ def dl():
 	print('\n[INFO] All Images & Videos are downloaded!')
 
 def captstory():
-	try:
-		driver.find_element_by_class_name("sqdOP.yWX7d._4pI4F._8A5w5").click()
-	except:
-		print('[INFO] Waiting another 5 sec for login...')
-		time.sleep(5)
-		try:
-			driver.find_element_by_class_name("sqdOP.yWX7d._4pI4F._8A5w5").click()
-		except:
-			try:
-				error = driver.find_element_by_id("slfErrorAlert")
-			except:
-				print('[INFO] Waiting another 5 sec for login...')
-				time.sleep(5)
-				driver.find_element_by_class_name("sqdOP.yWX7d._4pI4F._8A5w5").click()
-			else:
-				driver.close()
-				print('[ERROR] You have entered a wrong username, password or email!')
-				exit()
 	time.sleep(1)
 	print('[INFO] Getting src of story...')
 	while True:
@@ -150,6 +132,23 @@ def captstory():
 				time.sleep(0.3)
 	dl()
 
+def waitforlogin():
+	while True:
+		try:
+			driver.find_element_by_class_name("sqdOP.yWX7d._4pI4F._8A5w5").click()
+		except:
+			try:
+				error = driver.find_element_by_id("slfErrorAlert")
+			except:
+				pass
+			else:
+				driver.close()
+				print('You have entered a wrong password or username!')
+				exit()
+		else:
+			break
+		time.sleep(0.5)
+
 def login():
 	print('[INFO] Logging you in...')
 	time.sleep(0.5)
@@ -160,8 +159,13 @@ def login():
 	time.sleep(1)
 	btn = driver.find_element_by_class_name("sqdOP.L3NKy.y3zKF").click()
 	print('[INFO] Logged in!')
-	print('[INFO] Waiting 5 seconds for login...')
-	time.sleep(5)
+
+def waitforpage(url):
+	while True:
+		if driver.current_url == url:
+			return
+		else:
+			time.sleep(0.5)
 
 print('Insta-Story-Getter by therealhe1ko\n')
 print('Please enter the profile:')
@@ -180,7 +184,9 @@ if not checkstatus():
 	print('[INFO] User is private')
 	driver.get('https://instagram.com/accounts/login/')
 	login()
+	waitforpage('https://www.instagram.com/')
 	driver.get('https://instagram.com/stories/{}/'.format(name))
+	waitforlogin()
 	captstory()
 else:
 	print('[INFO] User is public')
@@ -191,6 +197,7 @@ else:
 	else:
 		print('[INFO] This user has a story')
 		login()
+		waitforlogin()
 		captstory()
 
 
