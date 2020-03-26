@@ -110,9 +110,21 @@ def captstory():
 	try:
 		driver.find_element_by_class_name("sqdOP.yWX7d._4pI4F._8A5w5").click()
 	except:
-		print('[WARN] Waiting another 5 sec for login...')
+		print('[INFO] Waiting another 5 sec for login...')
 		time.sleep(5)
-		driver.find_element_by_class_name("sqdOP.yWX7d._4pI4F._8A5w5").click()
+		try:
+			driver.find_element_by_class_name("sqdOP.yWX7d._4pI4F._8A5w5").click()
+		except:
+			try:
+				error = driver.find_element_by_id("slfErrorAlert")
+			except:
+				print('[INFO] Waiting another 5 sec for login...')
+				time.sleep(5)
+				driver.find_element_by_class_name("sqdOP.yWX7d._4pI4F._8A5w5").click()
+			else:
+				driver.close()
+				print('[ERROR] You have entered a wrong username, password or email!')
+				exit()
 	time.sleep(1)
 	print('[INFO] Getting src of story...')
 	while True:
