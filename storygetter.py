@@ -29,9 +29,7 @@ if not os.path.isfile('drivers/chromedriver'):
 
 subprocess.call('clear')
 
-#global imgs
 imgs = list()
-#global vids
 vids = list()
 
 relpath = 'drivers/chromedriver'
