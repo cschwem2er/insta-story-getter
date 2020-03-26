@@ -29,12 +29,14 @@ if not os.path.isfile('drivers/chromedriver'):
 
 subprocess.call('clear')
 
-global imgs
+#global imgs
 imgs = list()
-global vids
+#global vids
 vids = list()
 
 relpath = 'drivers/chromedriver'
+
+speed = 0.2
 
 path = Path().absolute()
 webdriverpath = os.path.join(path, relpath)
@@ -128,7 +130,7 @@ def captstory():
 				imgs.append(obj.get_attribute("src"))
 			else:
 				driver.find_element_by_class_name("ow3u_").click()
-				time.sleep(0.3)
+				time.sleep(speed)
 		else:
 			obj = driver.find_elements_by_tag_name("source")
 			if obj[0].get_attribute("src") not in vids:
@@ -136,7 +138,7 @@ def captstory():
 				vids.append(obj[0].get_attribute("src"))
 			else:
 				driver.find_element_by_class_name("ow3u_").click()
-				time.sleep(0.3)
+				time.sleep(speed)
 	dl()
 
 def waitforlogin():
@@ -153,6 +155,7 @@ def waitforlogin():
 				prRed('[ERROR] You have entered a wrong password or username!')
 				exit()
 		else:
+			prGreen('[INFO] Logged in!')
 			return
 		time.sleep(0.5)
 
@@ -169,7 +172,6 @@ def login():
 def waitforpage(url):
 	while True:
 		if driver.current_url == url:
-			prGreen('[INFO] Logged in!')
 			return
 		else:
 			time.sleep(0.5)
@@ -177,7 +179,6 @@ def waitforpage(url):
 def checklogin():
 	while True:
 		if driver.current_url == 'https://www.instagram.com/':
-			prGreen('[INFO] Logged in!')
 			return
 		try:
 			driver.find_element_by_id("slfErrorAlert")
@@ -188,6 +189,14 @@ def checklogin():
 			prRed('[ERROR] You have entered a wrong username or password!')
 			exit()
 
+def privstory():
+	driver.get('https://instagram.com/accounts/login/')
+	login()
+	checklogin()
+	waitforpage('https://www.instagram.com/')
+	driver.get('https://instagram.com/stories/{}/'.format(name))
+	waitforlogin()
+	captstory()
 
 print('Insta-Story-Getter by therealhe1ko\n')
 print('Please enter the profile:')
@@ -204,13 +213,7 @@ else:
 print('[INFO] Checking if user is public or private')
 if not checkstatus():
 	print('[INFO] User is private')
-	driver.get('https://instagram.com/accounts/login/')
-	login()
-	checklogin()
-	waitforpage('https://www.instagram.com/')
-	driver.get('https://instagram.com/stories/{}/'.format(name))
-	waitforlogin()
-	captstory()
+	privstory()
 else:
 	print('[INFO] User is public')
 	if not checkstory():
