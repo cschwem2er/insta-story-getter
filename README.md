@@ -38,9 +38,6 @@ Only supports linux!
 
 ## Common Errors:
 
-##### The program starts, but nothing happens
-That means, theres something wrong with the chrome installation or the chrome driver. You can try downloading a new driver from: [This Site](https://sites.google.com/a/chromium.org/chromedriver/downloads "Download Chrome driver"). (Could work if you've got an older / or newer chrome version), the standart-driver is on version 75. If you downloaded it, rename it to 'chromedriver.exe' and put it in the insta-story-getter/drivers folder.
-
 ##### Certian images were not downloaded
 They were downloaded but they are in the 'vid' folder (if there are stickers or gifs in the image, it counts as a video)
 
