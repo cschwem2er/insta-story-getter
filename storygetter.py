@@ -53,12 +53,12 @@ def getcred():
 		print('\nYour instagram username of email')
 		username = input('Username/Email: ')
 	else:
-    	username = Config.get('Default_Creds', 'username')
+		username = Config.get('Default_Creds', 'username')
 	if Config.get('Default_Creds', 'password') != 'hunter':
 		print('\nYour instagram password')
 		password = getpass('Password: ')
 	else:
-    	password = Config.get('Default_Creds', 'password')
+		password = Config.get('Default_Creds', 'password')
 
 
 def checkexist():
