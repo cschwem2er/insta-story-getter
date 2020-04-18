@@ -14,7 +14,11 @@ from selenium.common.exceptions import SessionNotCreatedException
 from getpass import getpass
 import subprocess
 import shutil
+import configparser
 LOGGER.setLevel(logging.WARNING)
+
+Config = configparser.ConfigParser()
+Config.read("default.ini")
 
 # Red colored text
 def prRed(skk): print("\033[91m{}\033[00m" .format(skk))
@@ -43,12 +47,18 @@ def getcred():
 	global name
 	name = input('User: ')
 	insturl = 'https://instagram.com/stories/' + name + '/'
-	print('\nYour instagram username of email')
 	global username
-	username = input('Username/Email: ')
-	print('\nYour instagram password')
 	global password
-	password = getpass('Password: ')
+	if Config.get('Default_Creds', 'username') != 'johndoe':
+		print('\nYour instagram username of email')
+		username = input('Username/Email: ')
+	else:
+    	username = Config.get('Default_Creds', 'username')
+	if Config.get('Default_Creds', 'password') != 'hunter':
+		print('\nYour instagram password')
+		password = getpass('Password: ')
+	else:
+    	password = Config.get('Default_Creds', 'password')
 
 
 def checkexist():
