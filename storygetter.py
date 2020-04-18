@@ -24,7 +24,7 @@ def prRed(skk): print("\033[91m{}\033[00m" .format(skk))
 def prGreen(skk): print("\033[92m{}\033[00m" .format(skk))
 
 if not os.path.isfile('drivers/chromedriver'):
-	pRed('Can\'t find the chromedriver! Have you installed it? View the README.md for more information')
+	prRed('Can\'t find the chromedriver! Have you installed it? View the README.md for more information')
 	exit()
 
 subprocess.call('clear')
