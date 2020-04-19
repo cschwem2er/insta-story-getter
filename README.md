@@ -36,6 +36,11 @@ Only supports linux!
 ./storygetter.py
 ```
 
+#### Setting default credentials up
+
+You just need to change the username and/or password in the default.ini file.
+
+
 ## Common Errors:
 
 ##### Certian images were not downloaded
@@ -43,6 +48,7 @@ They were downloaded but they are in the 'vid' folder (if there are stickers or 
 
 ##### Why do i have to put my username and password?
 If you access a story on the instagram website you need to log in, in order to see the story
+
 Don't worry. Your username or password do not get saved or sent anywhere, if you dont trust me just look into the code ;)
 
 If you don't see your error here, open a issue.
