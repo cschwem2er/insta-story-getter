@@ -15,7 +15,13 @@ from getpass import getpass
 import subprocess
 import shutil
 import configparser
+import optparse
 LOGGER.setLevel(logging.WARNING)
+
+parser = optparse.OptionParser()
+parser.add_option('--savedstory', action='store_true', dest='sast', help='Scrape saved stories')
+
+options, args = parser.parse_args()
 
 Config = configparser.ConfigParser()
 Config.read("default.ini")
@@ -31,7 +37,11 @@ if not os.path.isfile('drivers/chromedriver'):
 	prRed('Can\'t find the chromedriver! Have you installed it? View the README.md for more information')
 	exit()
 
+
 subprocess.call('clear')
+
+if options.sast:
+    	prRed('Warning: This feature is in ALPHA-State!')
 
 imgs = list()
 vids = list()
@@ -43,10 +53,15 @@ speed = 0.2
 path = Path().absolute()
 webdriverpath = os.path.join(path, relpath)
 
-def getcred():
+def getcred(yes):
 	global name
-	name = input('User: ')
-	insturl = 'https://instagram.com/stories/' + name + '/'
+	if yes:
+		name = 'all'
+		global url
+		url = input('URL of Story: ')
+	else:
+		name = input('User: ')
+		insturl = 'https://instagram.com/stories/' + name + '/'
 	global username
 	global password
 	if Config.get('Default_Creds', 'username') == 'johndoe':
@@ -206,33 +221,51 @@ def privstory():
 	waitforlogin()
 	captstory()
 
-print('Insta-Story-Getter by therealhe1ko\n')
-print('Please enter the profile:')
-getcred()
-subprocess.call('clear')
+def main():
+	print('Insta-Story-Getter by therealhe1ko\n')
+	print('Please enter the profile:')
+	getcred(False)
+	subprocess.call('clear')
 
-print('[INFO] Checking if user exists...')
-if not checkexist():
-	prRed('[ERROR] This user does not exist!')
-	exit()
-else:
-	print('[INFO] User exists')
-
-print('[INFO] Checking if user is public or private')
-if not checkstatus():
-	print('[INFO] User is private')
-	privstory()
-else:
-	print('[INFO] User is public')
-	if not checkstory():
-		prRed('[ERROR] This user has no story!')
-		driver.close()
+	print('[INFO] Checking if user exists...')
+	if not checkexist():
+		prRed('[ERROR] This user does not exist!')
 		exit()
 	else:
-		prGreen('[INFO] This user has a story')
-		login()
-		waitforlogin()
-		captstory()
+		print('[INFO] User exists')
 
+	print('[INFO] Checking if user is public or private')
+	if not checkstatus():
+		print('[INFO] User is private')
+		privstory()
+	else:
+		print('[INFO] User is public')
+		if not checkstory():
+			prRed('[ERROR] This user has no story!')
+			driver.close()
+			exit()
+		else:
+			prGreen('[INFO] This user has a story')
+			login()
+			waitforlogin()
+			captstory()
+
+def mainsast():
+	print('Insta-Story-Getter by therealhe1ko\n')
+	print('Please enter the profile:')
+	getcred(True)
+	checkexist()
+	subprocess.call('clear')
+	print('[INFO] Checking if user exists...')
+	driver.get(url)
+	time.sleep(1)
+	login()
+	waitforlogin()
+	captstory()
+
+if not options.sast:
+	main()
+else:
+	mainsast()
 
 exit()
