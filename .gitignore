@@ -107,3 +107,4 @@ venv.bak/
 drivers/chromedriver
 img/
 vid/
+default.ini

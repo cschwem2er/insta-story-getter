@@ -17,6 +17,7 @@ import shutil
 import configparser
 import optparse
 LOGGER.setLevel(logging.WARNING)
+from extractimages import extractfrvid
 
 parser = optparse.OptionParser()
 parser.add_option('--savedstory', action='store_true', dest='sast', help='Scrape saved stories')
@@ -221,6 +222,12 @@ def privstory():
 	waitforlogin()
 	captstory()
 
+def extractfun():
+	print('Do you want to convert the videos into images?')
+	choice = input('Y / N > ')
+	if choice in ('y', 'Y'):
+		extractfrvid()
+
 def main():
 	print('Insta-Story-Getter by therealhe1ko\n')
 	print('Please enter the profile:')
@@ -249,6 +256,7 @@ def main():
 			login()
 			waitforlogin()
 			captstory()
+	extractfun()
 
 def mainsast():
 	print('Insta-Story-Getter by therealhe1ko\n')
@@ -262,6 +270,7 @@ def mainsast():
 	login()
 	waitforlogin()
 	captstory()
+	extractfun()
 
 if not options.sast:
 	main()
