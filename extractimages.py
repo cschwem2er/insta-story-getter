@@ -10,7 +10,7 @@ def extractfrvid():
     files = os.listdir('vid')
 
     for file in files:
-        cmd = 'ffmpeg -ss 0.5 -i {} -vframes 1 -f image2 {}.jpg'.format('vid/{}'.format(file), 'img/%03d{}'.format(file[:-4]))
+        cmd = 'ffmpeg -ss 0.5 -i {} -vframes 1 -f image2 {}.jpg > /dev/null'.format('vid/{}'.format(file), 'img/%03d{}'.format(file[:-4]))
         os.popen(cmd).read()
 
 if __name__ == "__main__":

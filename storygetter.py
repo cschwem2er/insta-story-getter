@@ -120,13 +120,14 @@ def dl():
 		os.makedirs('vid')
 	i = 1
 	for item in imgs:
-		r = requests.get(item, stream=True)
-		fn = "img/{}{}.jpg".format(name, i)
-		print('[INFO] Downloading: {}'.format(fn))
-		with open(fn, 'wb') as f:
-			shutil.copyfileobj(r.raw, f)
-		del r
-		i += 1
+		if item != None:
+			r = requests.get(item, stream=True)
+			fn = "img/{}{}.jpg".format(name, i)
+			print('[INFO] Downloading: {}'.format(fn))
+			with open(fn, 'wb') as f:
+				shutil.copyfileobj(r.raw, f)
+			del r
+			i += 1
 	print('\n[INFO] Downloading videos...')
 	i = 1
 	for item in vids:
