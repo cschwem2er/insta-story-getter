@@ -21,6 +21,7 @@ from extractimages import extractfrvid
 
 parser = optparse.OptionParser()
 parser.add_option('--savedstory', action='store_true', dest='sast', help='Scrape saved stories')
+parser.add_option('--headless', action='store_true', dest='head', help='Headless (invisible) chrome driver')
 
 options, args = parser.parse_args()
 
@@ -38,6 +39,9 @@ if not os.path.isfile('drivers/chromedriver'):
 	prRed('Can\'t find the chromedriver! Have you installed it? View the README.md for more information')
 	exit()
 
+driveroptions = webdriver.ChromeOptions()
+if options.head:
+	driveroptions.add_argument('headless')
 
 subprocess.call('clear')
 
@@ -80,7 +84,7 @@ def getcred(yes):
 def checkexist():
 	global driver
 	try:
-		driver = webdriver.Chrome(executable_path= webdriverpath)
+		driver = webdriver.Chrome(executable_path= webdriverpath,options=driveroptions)
 		driver.get('https://instagram.com/{}'.format(name))
 	except SessionNotCreatedException as e:
 		prRed('Your Version of Chromedriver is outdated. Please download the one matching your Chrome installation:')
@@ -166,6 +170,21 @@ def captstory():
 				time.sleep(speed)
 	dl()
 
+def skiprem():
+	while True:
+		try:
+			btndv = driver.find_element_by_class_name("cmbtv")
+			btn = btndv.find_element_by_xpath("//button")
+			btn.click()
+			return
+		except Exception as e:
+			try:
+				driver.find_element_by_class_name("sqdOP.yWX7d._4pI4F._8A5w5").click()
+			except:
+				pass
+			else:
+				return
+		time.sleep(0.5)
 def waitforlogin():
 	while True:
 		try:
@@ -255,6 +274,7 @@ def main():
 		else:
 			prGreen('[INFO] This user has a story')
 			login()
+			skiprem()
 			waitforlogin()
 			captstory()
 	extractfun()
@@ -269,6 +289,7 @@ def mainsast():
 	driver.get(url)
 	time.sleep(1)
 	login()
+	skiprem()
 	waitforlogin()
 	captstory()
 	extractfun()

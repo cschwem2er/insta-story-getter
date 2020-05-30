@@ -32,8 +32,18 @@ pip3 install -r requirements.txt
 #### Usage:
 
 Only supports linux!
+
+If you want to download the story of someone:
 ```
 ./storygetter.py
+```
+If you want to download a saved story [May be unstable]
+```
+./storygetter.py --savedstory
+```
+Use headless (invisible Chrome):
+```
+./storygetter.py --headless
 ```
 
 #### Setting default credentials up
