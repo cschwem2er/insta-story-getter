@@ -41,6 +41,10 @@ If you want to download a saved story [May be unstable]
 ```
 ./storygetter.py --savedstory
 ```
+Use headless (invisible Chrome):
+```
+./storygetter.py --headless
+```
 
 ## Common Errors:
 
