@@ -146,6 +146,7 @@ def dl():
 
 def captstory():
 	time.sleep(1)
+	driver.find_element_by_class_name("_42FBe").click()
 	print('[INFO] Getting src of story...')
 	while True:
 		if driver.current_url == 'https://www.instagram.com/':
@@ -154,6 +155,10 @@ def captstory():
 			obj = driver.find_element_by_class_name("OFkrO")
 		except:
 			obj = driver.find_element_by_class_name("y-yJ5")
+			try:
+				obj.get_attribute("src")
+			except:
+				continue
 			if obj.get_attribute("src") not in imgs and not None:
 				print('[INFO] Got IMG-Src!')
 				imgs.append(obj.get_attribute("src"))
@@ -162,6 +167,10 @@ def captstory():
 				time.sleep(speed)
 		else:
 			obj = driver.find_elements_by_tag_name("source")
+			try:
+				obj[0].get_attribute("src")
+			except:
+				continue
 			if obj[0].get_attribute("src") not in vids:
 				print('[INFO] Got VID-Src!')
 				vids.append(obj[0].get_attribute("src"))
@@ -169,38 +178,22 @@ def captstory():
 				driver.find_element_by_class_name("ow3u_").click()
 				time.sleep(speed)
 	dl()
-
-def skiprem():
-	while True:
-		try:
-			btndv = driver.find_element_by_class_name("cmbtv")
-			btn = btndv.find_element_by_xpath("//button")
-			btn.click()
-			return
-		except Exception as e:
-			try:
-				driver.find_element_by_class_name("sqdOP.yWX7d._4pI4F._8A5w5").click()
-			except:
-				pass
-			else:
-				return
-		time.sleep(0.5)
 def waitforlogin():
 	while True:
 		try:
-			driver.find_element_by_class_name("sqdOP.yWX7d._4pI4F._8A5w5").click()
+			error = driver.find_element_by_id("slfErrorAlert")
 		except:
 			try:
-				error = driver.find_element_by_id("slfErrorAlert")
+				ins = driver.find_element_by_class_name("NXVPg.Szr5J.coreSpriteLoggedOutWordmark")
 			except:
-				pass
+				driver.get('https://instagram.com/stories/{}'.format(name))
+				return
 			else:
-				driver.close()
-				prRed('[ERROR] You have entered a wrong password or username!')
-				exit()
+				pass
 		else:
-			prGreen('[INFO] Logged in!')
-			return
+			driver.close()
+			prRed('[ERROR] You have entered a wrong password or username!')
+			exit()
 		time.sleep(0.5)
 
 def login():
@@ -220,26 +213,12 @@ def waitforpage(url):
 		else:
 			time.sleep(0.5)
 
-def checklogin():
-	while True:
-		if driver.current_url == 'https://www.instagram.com/':
-			return
-		try:
-			driver.find_element_by_id("slfErrorAlert")
-		except:
-			pass
-		else:
-			driver.close()
-			prRed('[ERROR] You have entered a wrong username or password!')
-			exit()
-
 def privstory():
 	driver.get('https://instagram.com/accounts/login/')
 	login()
-	checklogin()
-	waitforpage('https://www.instagram.com/')
-	driver.get('https://instagram.com/stories/{}/'.format(name))
 	waitforlogin()
+	#waitforpage('https://www.instagram.com/')
+	#driver.get('https://instagram.com/stories/{}/'.format(name))
 	captstory()
 
 def extractfun():
@@ -259,7 +238,7 @@ def main():
 		prRed('[ERROR] This user does not exist!')
 		exit()
 	else:
-		print('[INFO] User exists')
+		prGreen('[INFO] User exists')
 
 	print('[INFO] Checking if user is public or private')
 	if not checkstatus():
@@ -274,7 +253,6 @@ def main():
 		else:
 			prGreen('[INFO] This user has a story')
 			login()
-			skiprem()
 			waitforlogin()
 			captstory()
 	extractfun()
@@ -289,7 +267,6 @@ def mainsast():
 	driver.get(url)
 	time.sleep(1)
 	login()
-	skiprem()
 	waitforlogin()
 	captstory()
 	extractfun()
