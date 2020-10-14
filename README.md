@@ -22,12 +22,7 @@ pip3 install -r requirements.txt
 ```
 
 ##### Installing the chromedriver
-1. Get the version of your Google Chrome installation
-2. Goto [this Link](https://sites.google.com/a/chromium.org/chromedriver/) and download the chromedriver for your version
-3. Create the directory **drivers** in this folder
-4. Put the **chromedriver** file into it
-5. Change the permission so that it can be executed:
-``` chmod +x drivers/chromedriver ```
+Run installer.py
 
 #### Usage:
 
