@@ -1,5 +1,17 @@
 {
-    "84": ["https://chromedriver.storage.googleapis.com/84.0.4147.30/chromedriver_linux64.zip", "https://chromedriver.storage.googleapis.com/84.0.4147.30/chromedriver_win32.zip", "https://chromedriver.storage.googleapis.com/84.0.4147.30/chromedriver_mac64.zip"],
-    "85": ["https://chromedriver.storage.googleapis.com/85.0.4183.87/chromedriver_linux64.zip", "https://chromedriver.storage.googleapis.com/85.0.4183.87/chromedriver_win32.zip", "https://chromedriver.storage.googleapis.com/85.0.4183.87/chromedriver_mac64.zip"],
-    "86": ["https://chromedriver.storage.googleapis.com/86.0.4240.22/chromedriver_linux64.zip", "https://chromedriver.storage.googleapis.com/86.0.4240.22/chromedriver_win32.zip", "https://chromedriver.storage.googleapis.com/86.0.4240.22/chromedriver_mac64.zip"]
-}
+    "84": [
+      "https://chromedriver.storage.googleapis.com/84.0.4147.30/chromedriver_linux64.zip",
+      "https://chromedriver.storage.googleapis.com/84.0.4147.30/chromedriver_win32.zip",
+      "https://chromedriver.storage.googleapis.com/84.0.4147.30/chromedriver_mac64.zip"
+    ],
+    "85": [
+      "https://chromedriver.storage.googleapis.com/85.0.4183.87/chromedriver_linux64.zip",
+      "https://chromedriver.storage.googleapis.com/85.0.4183.87/chromedriver_win32.zip",
+      "https://chromedriver.storage.googleapis.com/85.0.4183.87/chromedriver_mac64.zip"
+    ],
+    "86": [
+      "https://chromedriver.storage.googleapis.com/86.0.4240.22/chromedriver_linux64.zip",
+      "https://chromedriver.storage.googleapis.com/86.0.4240.22/chromedriver_win32.zip",
+      "https://chromedriver.storage.googleapis.com/86.0.4240.22/chromedriver_mac64.zip"
+    ]
+  }
