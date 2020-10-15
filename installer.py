@@ -20,7 +20,7 @@ else:
     print("ERROR: Google-Chrome is not installed or in Path!")
     exit()
 print("\n\n--- Fetching newest version of version.json ---")
-r = requests.get('https://raw.githubusercontent.com/fnngttrt/insta-story-getter/feature/chromedriver-install/version.json')
+r = requests.get('https://raw.githubusercontent.com/fnngttrt/insta-story-getter/master/version.json')
 versions = r.text
 versions = json.loads(versions)
 print("--- Newest version.json has been downloaded ---")
