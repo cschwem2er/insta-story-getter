@@ -3,6 +3,7 @@
 </div>
 A python script, which downloads images and videos from instagram-stories
 
+Only supports Linux at the moment, Windows support is being worked on
 
 ###### Requirements:
 Python3
@@ -26,7 +27,6 @@ Run ``` installer.py ```
 
 #### Usage:
 
-Only supports linux!
 
 If you want to download the story of someone:
 ```
