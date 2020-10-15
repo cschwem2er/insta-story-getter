@@ -22,7 +22,7 @@ pip3 install -r requirements.txt
 ```
 
 ##### Installing the chromedriver
-Run installer.py
+Run ``` installer.py ```
 
 #### Usage:
 
