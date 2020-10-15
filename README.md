@@ -3,7 +3,7 @@
 </div>
 A python script, which downloads images and videos from instagram-stories
 
-Only supports Linux at the moment, Windows support is being worked on
+##### Only supports Linux at the moment, Windows support is being worked on
 
 ###### Requirements:
 Python3
