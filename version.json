@@ -18,5 +18,10 @@
       "https://chromedriver.storage.googleapis.com/86.0.4240.22/chromedriver_linux64.zip",
       "https://chromedriver.storage.googleapis.com/86.0.4240.22/chromedriver_win32.zip",
       "https://chromedriver.storage.googleapis.com/86.0.4240.22/chromedriver_mac64.zip"
+    ],
+        "90": [
+      "https://chromedriver.storage.googleapis.com/90.0.4430.24/chromedriver_linux64.zip",
+      "https://chromedriver.storage.googleapis.com/90.0.4430.24/chromedriver_win32.zip",
+      "https://chromedriver.storage.googleapis.com/90.0.4430.24/chromedriver_mac64.zip"
     ]
 }
