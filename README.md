@@ -15,7 +15,7 @@ Google Chrome
 #### Installation
 ##### Installing the program
 ```
-git clone https://github.com/therealhe1ko/insta-story-getter
+git clone https://github.com/cschwem2er/insta-story-getter
 
 cd insta-story-getter
 
